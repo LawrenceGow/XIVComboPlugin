@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 using Dalamud.Game;
 using Dalamud.Hooking;
@@ -395,6 +395,10 @@ namespace XIVComboPlugin
                         return BLM.Flare;
                     return BLM.Freeze;
 
+                case BLM.UmbralSoul:
+                    if (JobGauges.Get<BLMGauge>().InAstralFire || level < 35)
+                        return BLM.Transpose;
+                    return BLM.UmbralSoul;
 
                 #endregion
 
