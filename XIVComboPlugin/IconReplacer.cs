@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Runtime.InteropServices;
 using Dalamud.Game;
 using Dalamud.Hooking;
@@ -381,6 +381,17 @@ namespace XIVComboPlugin
                 #endregion
 
                 #region BLACK MAGE
+
+                case BLM.Fire1:
+                case BLM.Blizzard1:
+                    {
+                        BLMGauge blmGauge = JobGauges.Get<BLMGauge>();
+                        if (blmGauge.InUmbralIce)
+                            return iconHook.Original(self, BLM.Blizzard1);
+                        else if (blmGauge.InAstralFire && blmGauge.AstralSoulStacks == 6)
+                            return BLM.FlareStar;
+                        return iconHook.Original(self, BLM.Fire1);
+                    }
 
                 case BLM.Fire4 when Configuration.ComboPresets.HasFlag(CustomComboPreset.BlackEnochianFeature):
                 case BLM.Blizzard4 when Configuration.ComboPresets.HasFlag(CustomComboPreset.BlackEnochianFeature):
