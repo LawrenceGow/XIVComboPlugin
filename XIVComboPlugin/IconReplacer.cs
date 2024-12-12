@@ -382,6 +382,19 @@ namespace XIVComboPlugin
 
                 #region BLACK MAGE
 
+                case BLM.Fire1:
+                case BLM.Blizzard1:
+                    {
+                        BLMGauge blmGauge = JobGauges.Get<BLMGauge>();
+                        if (blmGauge.IsParadoxActive)
+                            return BLM.Paradox;
+                        if (blmGauge.InUmbralIce)
+                            return BLM.Blizzard1;
+                        if (blmGauge.InAstralFire && blmGauge.AstralSoulStacks == 6)
+                            return BLM.FlareStar;
+                        return BLM.Fire1;
+                    }
+
                 case BLM.Fire4 when Configuration.ComboPresets.HasFlag(CustomComboPreset.BlackEnochianFeature):
                 case BLM.Blizzard4 when Configuration.ComboPresets.HasFlag(CustomComboPreset.BlackEnochianFeature):
                     if (JobGauges.Get<BLMGauge>().InUmbralIce && level >= 58)
@@ -391,10 +404,17 @@ namespace XIVComboPlugin
                     return iconHook.Original(self, actionID);
                 case BLM.Flare when Configuration.ComboPresets.HasFlag(CustomComboPreset.BlackEnochianFeature):
                 case BLM.Freeze when Configuration.ComboPresets.HasFlag(CustomComboPreset.BlackEnochianFeature):
-                    if (JobGauges.Get<BLMGauge>().InAstralFire && level >= 50)
-                        return BLM.Flare;
-                    return BLM.Freeze;
-
+                    {
+                        BLMGauge blmGauge = JobGauges.Get<BLMGauge>();
+                        if (blmGauge.InAstralFire)
+                        {
+                            if (blmGauge.AstralSoulStacks == 6)
+                                return BLM.FlareStar;
+                            if (level >= 50)
+                                return BLM.Flare;
+                        }
+                        return BLM.Freeze;
+                    }
 
                 #endregion
 
