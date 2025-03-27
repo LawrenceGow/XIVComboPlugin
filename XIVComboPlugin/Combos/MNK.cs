@@ -149,7 +149,7 @@ internal class MonkPerfectBalance : CustomCombo
         {
             var gauge = GetJobGauge<MNKGauge>();
 
-            if (!gauge.BeastChakra.Contains(BeastChakra.None) && level >= MNK.Levels.MasterfulBlitz)
+            if (!gauge.BeastChakra.Contains(BeastChakra.NONE) && level >= MNK.Levels.MasterfulBlitz)
                 // Chakra actions
                 return OriginalHook(MNK.MasterfulBlitz);
         }

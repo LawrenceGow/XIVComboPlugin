@@ -93,16 +93,16 @@ internal class AstrologianPlay : CustomCombo
         var gauge = GetJobGauge<ASTGauge>();
 
         if (OriginalHook(actionID) == AST.Play1 && IsOriginal(AST.Play1))
-            return gauge.ActiveDraw == DrawType.Astral ? OriginalHook(AST.AstralDraw) : OriginalHook(AST.UmbralDraw);
+            return gauge.ActiveDraw == DrawType.ASTRAL ? OriginalHook(AST.AstralDraw) : OriginalHook(AST.UmbralDraw);
 
         if (OriginalHook(actionID) == AST.Play2 && IsOriginal(AST.Play2))
-            return gauge.ActiveDraw == DrawType.Astral ? OriginalHook(AST.AstralDraw) : OriginalHook(AST.UmbralDraw);
+            return gauge.ActiveDraw == DrawType.ASTRAL ? OriginalHook(AST.AstralDraw) : OriginalHook(AST.UmbralDraw);
 
         if (OriginalHook(actionID) == AST.Play3 && IsOriginal(AST.Play3))
-            return gauge.ActiveDraw == DrawType.Astral ? OriginalHook(AST.AstralDraw) : OriginalHook(AST.UmbralDraw);
+            return gauge.ActiveDraw == DrawType.ASTRAL ? OriginalHook(AST.AstralDraw) : OriginalHook(AST.UmbralDraw);
 
         if (OriginalHook(actionID) == AST.MinorArcanaDT && IsOriginal(AST.MinorArcanaDT))
-            return gauge.ActiveDraw == DrawType.Astral ? OriginalHook(AST.AstralDraw) : OriginalHook(AST.UmbralDraw);
+            return gauge.ActiveDraw == DrawType.ASTRAL ? OriginalHook(AST.AstralDraw) : OriginalHook(AST.UmbralDraw);
 
         return actionID;
     }
