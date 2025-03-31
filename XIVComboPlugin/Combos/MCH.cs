@@ -150,3 +150,21 @@ internal class MachinistHyperchargeCombo : CustomCombo
         return actionID;
     }
 }
+
+internal class MachinistRobotCombo : CustomCombo
+{
+    protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.MchAny;
+
+    protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level)
+    {
+        if (actionID != MCH.RookAutoturret && actionID != MCH.AutomatonQueen)
+            return actionID;
+
+        var gauge = GetJobGauge<MCHGauge>();
+
+        if (gauge.IsRobotActive && level >= MCH.Levels.RookOverdrive)
+            return OriginalHook(MCH.RookOverdrive);
+
+        return actionID;
+    }
+}
