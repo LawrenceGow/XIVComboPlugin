@@ -92,32 +92,52 @@ internal class BlackFireBlizzard4 : CustomCombo
 
     protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level)
     {
-        if (actionID == BLM.Fire4 || actionID == BLM.Blizzard4)
+        switch (actionID)
         {
-            var gauge = GetJobGauge<BLMGauge>();
+            case BLM.Fire:
+            case BLM.Blizzard:
+                {
+                    var gauge = GetJobGauge<BLMGauge>();
+                    if (gauge.InAstralFire)
+                        return OriginalHook(BLM.Fire);
 
-            if (gauge.InAstralFire)
-            {
-                return BLM.Fire4;
-            }
+                    return OriginalHook(BLM.Blizzard);
+                }
 
-            if (gauge.InUmbralIce)
-            {
-                return BLM.Blizzard4;
-            }
+            case BLM.Fire4:
+            case BLM.Blizzard4:
+                {
+                    var gauge = GetJobGauge<BLMGauge>();
+                    if (gauge.InAstralFire && level >= BLM.Levels.Fire4)
+                    {
+                        if (gauge.AstralSoulStacks == 6)
+                            return BLM.FlareStar;
+
+                        return BLM.Fire4;
+                    }
+
+                    return BLM.Blizzard4;
+                }
+
+            case BLM.Flare:
+            case BLM.Freeze:
+                {
+                    var gauge = GetJobGauge<BLMGauge>();
+
+                    if (level >= BLM.Levels.Freeze && gauge.InUmbralIce)
+                        return BLM.Freeze;
+
+                    if (gauge.InAstralFire && level >= BLM.Levels.Flare)
+                    {
+                        if (gauge.AstralSoulStacks == 6)
+                            return BLM.FlareStar;
+
+                        return BLM.Flare;
+                    }
+                }
+                break;
         }
 
-		if (actionID == BLM.Freeze || actionID == BLM.Flare)
-		{
-			var gauge = GetJobGauge<BLMGauge>();
-
-				if (level >= BLM.Levels.Freeze && gauge.InUmbralIce)
-					return BLM.Freeze;
-
-				if (level >= BLM.Levels.Flare && gauge.InAstralFire)
-					return BLM.Flare;
-		}
-
-		return actionID;
-	}
+        return actionID;
+    }
 }
