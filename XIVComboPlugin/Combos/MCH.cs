@@ -95,23 +95,23 @@ internal class MachinistCleanShot : CustomCombo
 
     protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level)
     {
-        if (actionID == MCH.CleanShot || actionID == MCH.HeatedCleanShot)
-        {
-            if (comboTime > 0)
-            {
-                if (lastComboMove == MCH.SlugShot && level >= MCH.Levels.CleanShot)
-                    // Heated
-                    return OriginalHook(MCH.CleanShot);
+        if (actionID != MCH.CleanShot && actionID != MCH.HeatedCleanShot)
+            return actionID;
 
-                if (lastComboMove == MCH.SplitShot && level >= MCH.Levels.SlugShot)
-                    // Heated
-                    return OriginalHook(MCH.SlugShot);
-            }
+        if (comboTime <= 0)
             // Heated
             return OriginalHook(MCH.SplitShot);
-        }
 
-        return actionID;
+        if (lastComboMove == MCH.SlugShot && level >= MCH.Levels.CleanShot)
+            // Heated
+            return OriginalHook(MCH.CleanShot);
+
+        if (lastComboMove == MCH.SplitShot && level >= MCH.Levels.SlugShot)
+            // Heated
+            return OriginalHook(MCH.SlugShot);
+
+        // Heated
+        return OriginalHook(MCH.SplitShot);
     }
 }
 
@@ -121,13 +121,13 @@ internal class MachinistSpreadShot : CustomCombo
 
     protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level)
     {
-        if (actionID == MCH.SpreadShot || actionID == MCH.Scattergun)
-        {
-            var gauge = GetJobGauge<MCHGauge>();
+        if (actionID != MCH.SpreadShot && actionID != MCH.Scattergun)
+            return actionID;
 
-            if (level >= MCH.Levels.AutoCrossbow && gauge.IsOverheated)
-                return MCH.AutoCrossbow;
-        }
+        var gauge = GetJobGauge<MCHGauge>();
+
+        if (level >= MCH.Levels.AutoCrossbow && gauge.IsOverheated)
+            return MCH.AutoCrossbow;
 
         return actionID;
     }
@@ -139,13 +139,13 @@ internal class MachinistHyperchargeCombo : CustomCombo
 
     protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level)
     {
-        if (actionID == MCH.Hypercharge)
-        {
-            var gauge = GetJobGauge<MCHGauge>();
+        if (actionID != MCH.Hypercharge)
+            return actionID;
 
-            if (level >= MCH.Levels.HeatBlast && gauge.IsOverheated)
-                return OriginalHook(MCH.HeatBlast);
-        }
+        var gauge = GetJobGauge<MCHGauge>();
+
+        if (level >= MCH.Levels.HeatBlast && gauge.IsOverheated)
+            return OriginalHook(MCH.HeatBlast);
 
         return actionID;
     }
