@@ -101,3 +101,57 @@ internal class WhiteMageAfflatusRapture : CustomCombo
         return actionID;
     }
 }
+
+internal class WhiteMageMedicaToRapture : CustomCombo
+{
+    protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.WhmAny;
+
+    protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level)
+    {
+        if (actionID == WHM.Medica)
+        {
+            var gauge = GetJobGauge<WHMGauge>();
+
+            if (level >= WHM.Levels.AfflatusRapture && gauge.Lily > 0)
+                return WHM.AfflatusRapture;
+        }
+
+        return actionID;
+    }
+}
+
+internal class WhiteMageCure2ToSolus : CustomCombo
+{
+    protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.WhmAny;
+
+    protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level)
+    {
+        if (actionID == WHM.Cure2)
+        {
+            var gauge = GetJobGauge<WHMGauge>();
+
+            if (level >= WHM.Levels.AfflatusSolace && gauge.Lily > 0)
+                return WHM.AfflatusSolace;
+        }
+
+        return actionID;
+    }
+}
+
+internal class WhiteMageGlareToMisery : CustomCombo
+{
+    protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.WhmAny;
+
+    protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level)
+    {
+        if (actionID == WHM.Glare || actionID == WHM.Glare3)
+        {
+            var gauge = GetJobGauge<WHMGauge>();
+
+            if (level >= WHM.Levels.AfflatusMisery && gauge.BloodLily == 3)
+                return WHM.AfflatusMisery;
+        }
+
+        return actionID;
+    }
+}
